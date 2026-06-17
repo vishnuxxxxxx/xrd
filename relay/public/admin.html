@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RELAY Console — Admin</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="admin-body">
+
+<!-- ===================== LOGIN ===================== -->
+<div class="console-login" id="login-screen">
+  <div class="login-card">
+    <div class="brand"><span class="dot"></span>RELAY</div>
+    <div class="login-sub">Console — staff access only</div>
+    <form id="login-form">
+      <label for="login-username">Username</label>
+      <input type="text" id="login-username" name="username" autocomplete="username" required />
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" name="password" autocomplete="current-password" required />
+      <div class="login-error" id="login-error"></div>
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top:22px;">Log in</button>
+    </form>
+    <div class="login-hint">Forgot the password? Run <code>node scripts/set-admin-password.js &lt;new-password&gt;</code> on the server.</div>
+  </div>
+</div>
+
+<!-- ===================== CONSOLE SHELL ===================== -->
+<div class="console-shell" id="console-shell">
+  <aside class="console-sidebar">
+    <div>
+      <div class="brand"><span class="dot"></span>RELAY</div>
+      <nav class="console-nav">
+        <button type="button" class="nav-btn active" data-view="roster">Roster <span class="badge" id="badge-roster">—</span></button>
+        <button type="button" class="nav-btn" data-view="reports">Reports <span class="badge" id="badge-reports">—</span></button>
+        <button type="button" class="nav-btn" data-view="recruits">Recruitment <span class="badge" id="badge-recruits">—</span></button>
+      </nav>
+    </div>
+    <div class="sidebar-foot">
+      <button type="button" class="btn btn-ghost" id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <main class="console-main">
+
+    <!-- ---- Roster view ---- -->
+    <section class="view active" id="view-roster">
+      <div class="console-head">
+        <div>
+          <h1>Roster</h1>
+          <p>Edit names and roles, flip status, or remove a seat. Changes are live on the public site immediately.</p>
+        </div>
+      </div>
+      <div class="admin-table">
+        <div class="admin-row head">
+          <div>ID</div><div>Name</div><div>Role</div><div>Status</div><div></div>
+        </div>
+        <div id="roster-rows"><div class="empty-state">Loading…</div></div>
+      </div>
+
+      <form class="add-member-form" id="add-member-form">
+        <input type="text" id="new-member-name" placeholder="Full name" required />
+        <input type="text" id="new-member-role" placeholder="Role" required />
+        <button type="submit" class="btn btn-primary">Add member</button>
+      </form>
+    </section>
+
+    <!-- ---- Reports view ---- -->
+    <section class="view" id="view-reports">
+      <div class="console-head">
+        <div>
+          <h1>Problem reports</h1>
+          <p>Every submission from the public Report a Problem form. New ones are also pushed to Telegram.</p>
+        </div>
+      </div>
+      <div id="reports-list"><div class="empty-state">Loading…</div></div>
+    </section>
+
+    <!-- ---- Recruitment view ---- -->
+    <section class="view" id="view-recruits">
+      <div class="console-head">
+        <div>
+          <h1>Recruitment applications</h1>
+          <p>Everyone who has applied to join through the public site.</p>
+        </div>
+      </div>
+      <div id="recruits-list"><div class="empty-state">Loading…</div></div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

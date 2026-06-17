@@ -1,0 +1,9 @@
+[
+  {"id": "m1", "memberId": "RLY-001", "name": "Priya Nandakumar", "role": "Team Lead", "status": "Active"},
+  {"id": "m2", "memberId": "RLY-002", "name": "Carlos Medina", "role": "Community Manager", "status": "Active"},
+  {"id": "m3", "memberId": "RLY-003", "name": "Aisha Bello", "role": "Content Moderator", "status": "Offline"},
+  {"id": "m4", "memberId": "RLY-004", "name": "Tom Whitfield", "role": "Growth Strategist", "status": "Active"},
+  {"id": "m5", "memberId": "RLY-005", "name": "Yuki Tanaka", "role": "Crisis Response Lead", "status": "Offline"},
+  {"id": "m6", "memberId": "RLY-006", "name": "Sofia Rinaldi", "role": "Recruitment Coordinator", "status": "Active"},
+  {"id": "m7", "memberId": "RLY-007", "name": "Daniel Okafor", "role": "Platform Support", "status": "Active"}
+]
