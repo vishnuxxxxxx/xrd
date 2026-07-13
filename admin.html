@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - DaemonXRD</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      background: #121212;
+      color: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+    }
+    input, textarea {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      color: #fff;
+      border-radius: 8px;
+      padding: 10px 14px;
+      width: 100%;
+      outline: none;
+    }
+    input:focus, textarea:focus {
+      border-color: #0D47A1;
+    }
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary { background: #0D47A1; color: #fff; }
+    .btn-primary:hover { background: #1565C0; }
+    .btn-danger { background: #c62828; color: #fff; }
+    .btn-danger:hover { background: #d32f2f; }
+    .btn-success { background: #2e7d32; color: #fff; }
+    .btn-success:hover { background: #388e3c; }
+    .btn-warning { background: #f57f17; color: #fff; }
+    .btn-warning:hover { background: #f9a825; }
+    .service-item {
+      background: #1e1e1e;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .service-item .actions button {
+      margin-left: 8px;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="glass p-8 rounded-2xl">
+      <h1 class="text-3xl font-bold mb-6 text-center">Admin Panel</h1>
+
+      <!-- Login Section -->
+      <div id="login-section">
+        <div class="space-y-4">
+          <div>
+            <label class="block mb-2 font-semibold">Password</label>
+            <input type="password" id="admin-password" placeholder="Enter admin password" />
+          </div>
+          <div>
+            <label class="block mb-2 font-semibold">Google Authenticator Code</label>
+            <input type="text" id="admin-2fa" placeholder="Enter 6-digit code" />
+          </div>
+          <button onclick="adminLogin()" class="btn btn-primary w-full">Login</button>
+        </div>
+      </div>
+
+      <!-- Dashboard (hidden until login) -->
+      <div id="dashboard-section" class="hidden">
+        <div class="grid md:grid-cols-2 gap-4 mb-8">
+          <div class="bg-blue-600 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold mb-2">Total Visitors</h3>
+            <p class="text-3xl font-bold" id="total-visitors">1,234</p>
+          </div>
+          <div class="bg-green-600 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold mb-2">Visitors Today</h3>
+            <p class="text-3xl font-bold" id="visitors-today">42</p>
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mb-4">Manage Services</h2>
+
+        <!-- Add Service Form -->
+        <div class="bg-gray-800 p-4 rounded-lg mb-6">
+          <h3 class="text-xl font-semibold mb-3">Add New Service</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <input type="text" id="new-service-name" placeholder="Service Name" />
+            <textarea id="new-service-desc" placeholder="Service Description" rows="2"></textarea>
+          </div>
+          <button onclick="addService()" class="btn btn-success mt-3">Add Service</button>
+        </div>
+
+        <!-- Service List -->
+        <div id="service-list" class="space-y-2">
+          <!-- populated by JavaScript -->
+        </div>
+
+        <!-- Edit Modal (hidden) -->
+        <div id="edit-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div class="bg-gray-800 p-6 rounded-lg max-w-md w-full">
+            <h3 class="text-xl font-bold mb-4">Edit Service</h3>
+            <input type="hidden" id="edit-id" />
+            <input type="text" id="edit-name" class="mb-2" placeholder="Service Name" />
+            <textarea id="edit-desc" class="mb-4" placeholder="Service Description" rows="3"></textarea>
+            <div class="flex justify-end space-x-2">
+              <button onclick="closeEditModal()" class="btn btn-danger">Cancel</button>
+              <button onclick="saveEdit()" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="adminLogout()" class="btn btn-danger w-full mt-6">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load credentials from separate config file -->
+  <script type="module">
+    import { ADMIN_PASSWORD, ADMIN_2FA } from './admin-config.js';
+    window.ADMIN_PASSWORD = ADMIN_PASSWORD;
+    window.ADMIN_2FA = ADMIN_2FA;
+  </script>
+
+  <script>
+    // ── Admin functions ──
+    let isLoggedIn = false;
+
+    function adminLogin() {
+      const pass = document.getElementById('admin-password').value;
+      const code = document.getElementById('admin-2fa').value;
+      // credentials are set from the module import
+      if (pass === window.ADMIN_PASSWORD && code === window.ADMIN_2FA) {
+        document.getElementById('login-section').classList.add('hidden');
+        document.getElementById('dashboard-section').classList.remove('hidden');
+        isLoggedIn = true;
+        loadServices();
+        updateStats();
+      } else {
+        alert('Invalid credentials!');
+      }
+    }
+
+    function adminLogout() {
+      document.getElementById('login-section').classList.remove('hidden');
+      document.getElementById('dashboard-section').classList.add('hidden');
+      isLoggedIn = false;
+      document.getElementById('admin-password').value = '';
+      document.getElementById('admin-2fa').value = '';
+    }
+
+    function updateStats() {
+      const total = localStorage.getItem('totalVisitors') || '1234';
+      const today = localStorage.getItem('visitorsToday') || '42';
+      document.getElementById('total-visitors').textContent = parseInt(total).toLocaleString();
+      document.getElementById('visitors-today').textContent = parseInt(today).toLocaleString();
+    }
+
+    function loadServices() {
+      const stored = localStorage.getItem('services');
+      if (!stored) return;
+      try {
+        const services = JSON.parse(stored);
+        const list = document.getElementById('service-list');
+        list.innerHTML = '';
+        services.forEach((svc, idx) => {
+          const div = document.createElement('div');
+          div.className = 'service-item';
+          div.innerHTML = `
+            <div>
+              <h4 class="font-bold">${svc.name}</h4>
+              <p class="text-sm opacity-70">${svc.description}</p>
+            </div>
+            <div class="actions">
+              <button onclick="editService(${idx})" class="btn btn-warning text-sm">Edit</button>
+              <button onclick="deleteService(${idx})" class="btn btn-danger text-sm">Delete</button>
+            </div>
+          `;
+          list.appendChild(div);
+        });
+      } catch (_) {}
+    }
+
+    function addService() {
+      const name = document.getElementById('new-service-name').value.trim();
+      const desc = document.getElementById('new-service-desc').value.trim();
+      if (!name || !desc) {
+        alert('Please fill in both fields.');
+        return;
+      }
+      const services = JSON.parse(localStorage.getItem('services') || '[]');
+      services.push({ name, description: desc });
+      localStorage.setItem('services', JSON.stringify(services));
+      document.getElementById('new-service-name').value = '';
+      document.getElementById('new-service-desc').value = '';
+      loadServices();
+      // Also refresh public view (if open in another tab, but we can't; but localStorage is shared)
+    }
+
+    function deleteService(index) {
+      if (!confirm('Delete this service?')) return;
+      const services = JSON.parse(localStorage.getItem('services') || '[]');
+      services.splice(index, 1);
+      localStorage.setItem('services', JSON.stringify(services));
+      loadServices();
+    }
+
+    // ── Edit functions ──
+    let editIndex = -1;
+
+    function editService(index) {
+      const services = JSON.parse(localStorage.getItem('services') || '[]');
+      const svc = services[index];
+      if (!svc) return;
+      editIndex = index;
+      document.getElementById('edit-id').value = index;
+      document.getElementById('edit-name').value = svc.name;
+      document.getElementById('edit-desc').value = svc.description;
+      document.getElementById('edit-modal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-modal').classList.add('hidden');
+    }
+
+    function saveEdit() {
+      const index = parseInt(document.getElementById('edit-id').value);
+      const name = document.getElementById('edit-name').value.trim();
+      const desc = document.getElementById('edit-desc').value.trim();
+      if (!name || !desc) {
+        alert('Please fill in both fields.');
+        return;
+      }
+      const services = JSON.parse(localStorage.getItem('services') || '[]');
+      if (index >= 0 && index < services.length) {
+        services[index] = { name, description: desc };
+        localStorage.setItem('services', JSON.stringify(services));
+        loadServices();
+        closeEditModal();
+      }
+    }
+
+    // ── Auto login check (optional) ──
+    window.addEventListener('load', () => {
+      // If already logged in via session? Not needed; just show login.
+    });
+  </script>
+</body>
+</html>

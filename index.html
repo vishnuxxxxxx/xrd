@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DaemonXRD Social Solutions | Secure • Recover • Grow</title>
+  <meta name="description" content="Official website of DaemonXRD (Vishnu) and XRD Legion. Premium digital services including social media solutions, account support, verification guidance, and creator support. 4+ years experience, 1000+ successful projects." />
+  <meta name="keywords" content="DaemonXRD, Vishnu, XRD Legion, social media solutions, account recovery, verification guidance, creator support, digital services, account management" />
+  <meta name="author" content="DaemonXRD - Vishnu" />
+
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "DaemonXRD Social Solutions",
+      "alternateName": "XRD Legion",
+      "url": "https://daemonxrd.com",
+      "logo": "https://via.placeholder.com/150",
+      "description": "Premium digital services provider specializing in social media solutions, account support, and creator management. Led by Vishnu (DaemonXRD) and the XRD Legion team since 2022.",
+      "founder": {
+        "@type": "Person",
+        "name": "Vishnu",
+        "alternateName": "DaemonXRD",
+        "jobTitle": "Founder & Digital Expert"
+      },
+      "foundingDate": "2022",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "xrdlegion@gmail.com",
+        "contactType": "Customer Service"
+      },
+      "sameAs": [
+        "https://t.me/DAEMONXRD",
+        "https://t.me/FinGrit",
+        "https://wa.me/+4915679200933"
+      ]
+    }
+  </script>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    /* ── Root ── */
+    :root {
+      --bg-dark: #121212;
+      --bg-secondary-dark: #1E1E1E;
+      --bg-light: #FFFFFF;
+      --bg-secondary-light: #F5F5F5;
+      --accent: #0D47A1;
+      --text-dark: #FFFFFF;
+      --text-light: #000000;
+      --subtext-dark: #B0BEC5;
+      --subtext-light: #78909C;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+    }
+
+    body.dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+    body.light-mode {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+    }
+    .light-mode .glass {
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, #0D47A1, #42A5F5);
+      z-index: 9999;
+      transition: width 0.1s ease;
+    }
+
+    .floating-btn {
+      position: fixed;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    .floating-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+    #whatsapp-float { bottom: 100px; background: #25D366; }
+    #telegram-float { bottom: 30px; background: #0088cc; }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .glow-btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .glow-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    .glow-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .service-card {
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(13, 71, 161, 0.3);
+    }
+
+    .theme-switch {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: #ccc;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .theme-switch.active { background: #0D47A1; }
+    .theme-slider {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      background: white;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .theme-switch.active .theme-slider { transform: translateX(30px); }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #0D47A1, #42A5F5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .metallic-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+    .light-mode ::-webkit-scrollbar-track { background: var(--bg-secondary-light); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .pulse { animation: pulse 2s infinite; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .glow-btn {
+      animation: float 3s ease-in-out infinite;
+    }
+    .glow-btn:nth-child(2) { animation-delay: 0.2s; }
+  </style>
+</head>
+
+<body class="light-mode">
+  <div id="scroll-progress"></div>
+  <div id="particles-js"></div>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/+4915679200933" target="_blank" rel="noopener noreferrer" id="whatsapp-float" class="floating-btn">
+    <i class="fab fa-whatsapp text-white text-3xl"></i>
+  </a>
+  <!-- Floating Telegram -->
+  <a href="https://t.me/DAEMONXRD" target="_blank" rel="noopener noreferrer" id="telegram-float" class="floating-btn">
+    <i class="fab fa-telegram text-white text-3xl"></i>
+  </a>
+
+<!-- Navigation -->
+<nav class="fixed w-full z-50 glass" data-aos="fade-down">
+  <div class="container mx-auto px-6 py-4">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg flex items-center justify-center">
+          <i class="fas fa-shield-alt text-white text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold">DaemonXRD</h1>
+          <p class="text-xs text-gray-400">Social Solutions</p>
+        </div>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#home" class="hover:text-blue-500 transition">Home</a>
+        <a href="#about" class="hover:text-blue-500 transition">About</a>
+        <a href="#services" class="hover:text-blue-500 transition">Services</a>
+        <a href="#contact" class="hover:text-blue-500 transition">Contact</a>
+        <a href="#rules" class="hover:text-blue-500 transition">Rules</a>
+      </div>
+
+      <!-- Theme Toggle & Mobile Button -->
+      <div class="flex items-center space-x-4">
+        <div id="theme-toggle" class="theme-switch">
+          <div class="theme-slider"></div>
+        </div>
+        <button id="mobile-menu-btn" class="md:hidden">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
+      <a href="#home" class="block py-2 hover:text-blue-500 transition">Home</a>
+      <a href="#about" class="block py-2 hover:text-blue-500 transition">About</a>
+      <a href="#services" class="block py-2 hover:text-blue-500 transition">Services</a>
+      <a href="#contact" class="block py-2 hover:text-blue-500 transition">Contact</a>
+      <a href="#rules" class="block py-2 hover:text-blue-500 transition">Rules</a>
+    </div>
+  </div>
+</nav>
+
+        <div class="flex items-center space-x-4">
+          <div id="theme-toggle" class="theme-switch">
+            <div class="theme-slider"></div>
+          </div>
+          <button id="mobile-menu-btn" class="md:hidden">
+            <i class="fas fa-bars text-2xl"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
+        <a href="#home" class="block py-2 hover:text-blue-500 transition">Home</a>
+        <a href="#about" class="block py-2 hover:text-blue-500 transition">About</a>
+        <a href="#services" class="block py-2 hover:text-blue-500 transition">Services</a>
+        <a href="#contact" class="block py-2 hover:text-blue-500 transition">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+    <div class="container mx-auto px-6">
+      <div class="text-center" data-aos="fade-up">
+        <div class="inline-block mb-6">
+          <span class="bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold">
+            SECURE • RECOVER • GROW
+          </span>
+        </div>
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          Welcome to the world of<br />
+          <span class="metallic-text">DaemonXRD</span>
+        </h1>
+        <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-80">
+          I am Vishnu, your digital expert, here to protect your digital presence and provide professional digital solutions for all your needs.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4 mb-12">
+          <a href="https://wa.me/+4915679200933" target="_blank" rel="noopener noreferrer" class="glow-btn bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-semibold transition flex items-center space-x-2">
+            <i class="fab fa-whatsapp"></i>
+            <span>Contact on WhatsApp</span>
+          </a>
+          <a href="https://t.me/+-jcCNz9LAcE4NDNl" target="_blank" rel="noopener noreferrer" class="glow-btn bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold transition flex items-center space-x-2">
+            <i class="fab fa-telegram"></i>
+            <span>Join Telegram Channel</span>
+          </a>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="https://t.me/DAEMONXRD" target="_blank" rel="noopener noreferrer" class="glass px-6 py-3 rounded-lg hover:bg-blue-600 transition flex items-center space-x-2">
+            <i class="fab fa-telegram"></i>
+            <span>Contact on Telegram</span>
+          </a>
+          <a href="mailto:xrdlegion@gmail.com" class="glass px-6 py-3 rounded-lg hover:bg-blue-600 transition flex items-center space-x-2">
+            <i class="fas fa-envelope"></i>
+            <span>Contact on Gmail</span>
+          </a>
+          <a href="https://instagram.com/daemonxrd" target="_blank" rel="noopener noreferrer" class="glass px-6 py-3 rounded-lg hover:bg-blue-600 transition flex items-center space-x-2">
+            <i class="fab fa-instagram"></i>
+            <span>Contact on Instagram</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ─── -->
+  <section id="about" class="py-20">
+    <div class="container mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div data-aos="fade-right">
+          <div class="glass p-8 rounded-2xl">
+            <div class="w-full h-96 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+              <i class="fas fa-user-shield text-white text-9xl"></i>
+            </div>
+          </div>
+        </div>
+        <div data-aos="fade-left">
+          <h2 class="text-4xl md:text-5xl font-bold mb-6">
+            About <span class="metallic-text">Vishnu</span>
+          </h2>
+          <div class="space-y-4 text-lg opacity-80">
+            <p>Hi, I'm Vishnu, also known as <strong>DaemonXRD</strong> in the digital world.</p>
+            <p>Along with my team, <strong>XRD Legion</strong>, established in 2022, we bring 4+ years of passion and expertise in offering a full suite of digital services.</p>
+            <p>We specialize in social media solutions, account support, account management, digital guidance, and creator support.</p>
+            <p>I have over 4 years of experience helping creators, businesses, and users with all types of digital services.</p>
+          </div>
+          <div class="mt-8">
+            <a href="#contact" class="glow-btn bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold inline-block transition">
+              Get in Touch
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SERVICES ─── -->
+  <section id="services" class="py-20">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Our <span class="metallic-text">Services</span></h2>
+        <p class="text-xl opacity-80">Professional digital solutions tailored to your needs</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="services-grid">
+        <!-- Default services will be replaced by JS if localStorage has data -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WHY CHOOSE US ─── -->
+  <section class="py-20">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Why <span class="metallic-text">Choose Us</span></h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="glass p-6 rounded-xl flex items-center space-x-4" data-aos="fade-up">
+          <i class="fas fa-clock text-blue-500 text-3xl"></i>
+          <div><h4 class="font-bold text-lg">4+ Years Experience</h4><p class="text-sm opacity-70">Proven track record</p></div>
+        </div>
+        <div class="glass p-6 rounded-xl flex items-center space-x-4" data-aos="fade-up" data-aos-delay="100">
+          <i class="fas fa-bolt text-blue-500 text-3xl"></i>
+          <div><h4 class="font-bold text-lg">Fast Response</h4><p class="text-sm opacity-70">Quick turnaround time</p></div>
+        </div>
+        <div class="glass p-6 rounded-xl flex items-center space-x-4" data-aos="fade-up" data-aos-delay="200">
+          <i class="fas fa-headset text-blue-500 text-3xl"></i>
+          <div><h4 class="font-bold text-lg">Professional Support</h4><p class="text-sm opacity-70">Expert assistance</p></div>
+        </div>
+        <div class="glass p-6 rounded-xl flex items-center space-x-4" data-aos="fade-up" data-aos-delay="300">
+          <i class="fas fa-shield-alt text-blue-500 text-3xl"></i>
+          <div><h4 class="font-bold text-lg">Secure Communication</h4><p class="text-sm opacity-70">Privacy guaranteed</p></div>
+        </div>
+        <div class="glass p-6 rounded-xl flex items-center space-x-4" data-aos="fade-up" data-aos-delay="400">
+          <i class="fas fa-star text-blue-500 text-3xl"></i>
+          <div><h4 class="font-bold text-lg">Trusted Guidance</h4><p class="text-sm opacity-70">Reliable expertise</p></div>
+        </div>
+        <div class="glass p-6 rounded-xl flex items-center space-x-4" data-aos="fade-up" data-aos-delay="500">
+          <i class="fas fa-handshake text-blue-500 text-3xl"></i>
+          <div><h4 class="font-bold text-lg">Middlemen Accepted</h4><p class="text-sm opacity-70">Flexible transactions</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WORK PROCESS ─── -->
+  <section class="py-20">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Our <span class="metallic-text">Work Process</span></h2>
+      </div>
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+          <div class="w-24 h-24 bg-gradient-to-br from-blue-600 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-4xl font-bold text-white">01</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Contact</h3>
+          <p class="opacity-70">Reach out via WhatsApp, Telegram, or Email</p>
+        </div>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+          <div class="w-24 h-24 bg-gradient-to-br from-blue-600 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-4xl font-bold text-white">02</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Consultation</h3>
+          <p class="opacity-70">Discuss your needs and requirements</p>
+        </div>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+          <div class="w-24 h-24 bg-gradient-to-br from-blue-600 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-4xl font-bold text-white">03</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Solution</h3>
+          <p class="opacity-70">Receive customized digital solutions</p>
+        </div>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+          <div class="w-24 h-24 bg-gradient-to-br from-blue-600 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-4xl font-bold text-white">04</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Support</h3>
+          <p class="opacity-70">Ongoing assistance and guidance</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── STATISTICS ─── -->
+  <section class="py-20">
+    <div class="container mx-auto px-6">
+      <div class="glass p-12 rounded-2xl">
+        <div class="grid md:grid-cols-4 gap-8 text-center">
+          <div data-aos="fade-up">
+            <div class="stat-number" data-target="4">0</div>
+            <p class="text-xl mt-2 opacity-70">Years Experience</p>
+          </div>
+          <div data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-number" data-target="1000">0</div>
+            <p class="text-xl mt-2 opacity-70">Successful Projects</p>
+          </div>
+          <div data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-number">24/7</div>
+            <p class="text-xl mt-2 opacity-70">Support Available</p>
+          </div>
+          <div data-aos="fade-up" data-aos-delay="300">
+            <div class="stat-number">100%</div>
+            <p class="text-xl mt-2 opacity-70">Fast Response</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact" class="py-20">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">Get in <span class="metallic-text">Touch</span></h2>
+      <p class="text-xl opacity-80">Choose your preferred method of contact</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <a href="https://wa.me/+4915679200933" target="_blank" rel="noopener noreferrer" class="glass p-8 rounded-2xl hover:bg-green-600 transition group" data-aos="fade-up">
+        <i class="fab fa-whatsapp text-5xl mb-4 text-green-500 group-hover:text-white transition"></i>
+        <h3 class="text-2xl font-bold mb-2">WhatsApp</h3>
+        <p class="opacity-70">+49 156 79200933</p>
+      </a>
+      <a href="https://t.me/DAEMONXRD" target="_blank" rel="noopener noreferrer" class="glass p-8 rounded-2xl hover:bg-blue-500 transition group" data-aos="fade-up" data-aos-delay="100">
+        <i class="fab fa-telegram text-5xl mb-4 text-blue-500 group-hover:text-white transition"></i>
+        <h3 class="text-2xl font-bold mb-2">Telegram</h3>
+        <p class="opacity-70">@DAEMONXRD</p>
+      </a>
+      <a href="https://t.me/FinGrit" target="_blank" rel="noopener noreferrer" class="glass p-8 rounded-2xl hover:bg-blue-500 transition group" data-aos="fade-up" data-aos-delay="200">
+        <i class="fab fa-telegram text-5xl mb-4 text-blue-500 group-hover:text-white transition"></i>
+        <h3 class="text-2xl font-bold mb-2">Telegram Alt</h3>
+        <p class="opacity-70">@FinGrit</p>
+      </a>
+      <a href="mailto:xrdlegion@gmail.com" class="glass p-8 rounded-2xl hover:bg-red-600 transition group" data-aos="fade-up" data-aos-delay="300">
+        <i class="fas fa-envelope text-5xl mb-4 text-red-500 group-hover:text-white transition"></i>
+        <h3 class="text-2xl font-bold mb-2">Email</h3>
+        <p class="opacity-70">xrdlegion@gmail.com</p>
+      </a>
+      <a href="https://instagram.com/daemonxrd" target="_blank" rel="noopener noreferrer" class="glass p-8 rounded-2xl hover:bg-pink-600 transition group" data-aos="fade-up" data-aos-delay="400">
+        <i class="fab fa-instagram text-5xl mb-4 text-pink-500 group-hover:text-white transition"></i>
+        <h3 class="text-2xl font-bold mb-2">Instagram</h3>
+        <p class="opacity-70">@daemonxrd</p>
+      </a>
+      <a href="https://t.me/+-jcCNz9LAcE4NDNl" target="_blank" rel="noopener noreferrer" class="glass p-8 rounded-2xl hover:bg-blue-600 transition group" data-aos="fade-up" data-aos-delay="500">
+        <i class="fab fa-telegram text-5xl mb-4 text-blue-600 group-hover:text-white transition"></i>
+        <h3 class="text-2xl font-bold mb-2">Telegram Channel</h3>
+        <p class="opacity-70">Join our community</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RULES ─── -->
+<section id="rules" class="py-20 bg-gradient-to-r from-red-900/20 to-orange-900/20">
+  <div class="container mx-auto px-6">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-4xl font-bold mb-8 text-center" data-aos="fade-up">Important <span class="metallic-text">Rules</span></h2>
+      <div class="space-y-6">
+        <div class="glass p-6 rounded-xl" data-aos="fade-up">
+          <h3 class="text-xl font-bold mb-3 flex items-center">
+            <i class="fas fa-handshake text-blue-500 mr-3"></i> Middleman Rule
+          </h3>
+          <p class="opacity-80">We only work with reputed, trusted, and popular middlemen. The client must bear the middleman's fee for the transaction.</p>
+        </div>
+        <div class="glass p-6 rounded-xl" data-aos="fade-up" data-aos-delay="100">
+          <h3 class="text-xl font-bold mb-3 flex items-center">
+            <i class="fas fa-rupee-sign text-green-500 mr-3"></i> Payment Rule
+          </h3>
+          <p class="opacity-80">We accept payments exclusively in Indian Rupees (INR) or recognized Cryptocurrencies. No other payment methods are supported.</p>
+        </div>
+        <div class="glass p-6 rounded-xl" data-aos="fade-up" data-aos-delay="200">
+          <h3 class="text-xl font-bold mb-3 flex items-center">
+            <i class="fas fa-clock text-yellow-500 mr-3"></i> Timeframe Rule
+          </h3>
+          <p class="opacity-80">Once an agreement is made, the deal must not be transferred to any third party during the agreed timeframe. You must only assign work to us until the specific timeframe expires.</p>
+        </div>
+        <div class="glass p-6 rounded-xl bg-red-900/20" data-aos="fade-up" data-aos-delay="300">
+          <h3 class="text-xl font-bold mb-3 flex items-center">
+            <i class="fas fa-exclamation-triangle text-red-500 mr-3"></i> Scam Alert
+          </h3>
+          <p class="opacity-80">We are not responsible for any unauthorized Telegram accounts, WhatsApp numbers, or fake identities that impersonate our name. Please ensure you only contact us through the official links and usernames provided on this website to protect yourself from scams.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer class="py-12 glass">
+  <div class="container mx-auto px-6">
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- 1. Privacy Policy (no data collection) -->
+      <div>
+        <h4 class="font-bold mb-4 flex items-center">
+          <i class="fas fa-eye text-blue-500 mr-2 pulse"></i>
+          Privacy Policy
+        </h4>
+        <p class="opacity-80 text-sm leading-relaxed">
+          We do not collect, store, or share any personal data. This website is purely informational and uses no tracking cookies. Your privacy is fully respected.
+        </p>
+        <div class="mt-3 inline-flex items-center bg-blue-600/20 px-3 py-1 rounded-full text-xs font-semibold text-blue-400">
+          <i class="fas fa-circle text-green-400 animate-pulse mr-1"></i> MUST WATCH
+        </div>
+      </div>
+
+      <!-- 2. Copyright Notice (strict prohibition) -->
+      <div>
+        <h4 class="font-bold mb-4 flex items-center">
+          <i class="fas fa-check-circle text-green-500 mr-2"></i>
+          Copyright
+        </h4>
+        <p class="opacity-80 text-sm leading-relaxed">
+          &copy; 2026 Vishnu E. – All rights reserved.  
+          This website, its design, content, and theme are the exclusive property of Vishnu E.  
+          <strong class="text-red-400">Unauthorized reproduction, distribution, or use is strictly prohibited.</strong>
+        </p>
+        <div class="mt-3 inline-flex items-center bg-green-600/20 px-3 py-1 rounded-full text-xs font-semibold text-green-400">
+          <i class="fas fa-verified mr-1"></i> VERIFIED
+        </div>
+      </div>
+
+      <!-- 3. Creator Info (Vishnu E. / DaemonXRD) -->
+      <div>
+        <h4 class="font-bold mb-4 flex items-center">
+          <i class="fas fa-user-astronaut text-purple-500 mr-2"></i>
+          Creator
+        </h4>
+        <p class="opacity-80 text-sm leading-relaxed">
+          <span class="font-semibold text-white">Vishnu E.</span> – known digitally as  
+          <span class="font-semibold text-blue-400">DaemonXRD</span>.  
+          He is the founder of <strong>DaemonXRD Social Solutions</strong> and a proud member of the  
+          <span class="font-semibold text-purple-400">XRD Legion</span> team.
+        </p>
+        <div class="mt-3 flex items-center space-x-2 text-xs opacity-70">
+          <span class="bg-blue-600/30 px-2 py-1 rounded">Founder</span>
+          <span class="bg-purple-600/30 px-2 py-1 rounded">XRD Legion</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar (optional) -->
+    <div class="border-t border-gray-700 pt-6 mt-8 text-center opacity-50 text-sm">
+      <p>Built with ❤️ by DaemonXRD • Securing digital presence since 2022</p>
+    </div>
+  </div>
+</footer>
+
+  <!-- ─── SCRIPTS ─── -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // ── AOS ──
+    AOS.init({ duration: 1000, once: true, offset: 100 });
+
+    // ── Particles ──
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#0D47A1' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5, random: false },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#0D47A1',
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2,
+          direction: 'none',
+          random: false,
+          straight: false,
+          out_mode: 'out',
+          bounce: false
+        }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: { enable: true, mode: 'repulse' },
+          onclick: { enable: true, mode: 'push' },
+          resize: true
+        }
+      },
+      retina_detect: true
+    });
+
+    // ── Theme Toggle ──
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      body.classList.toggle('light-mode');
+      themeToggle.classList.toggle('active');
+    });
+
+    // ── Mobile Menu ──
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // ── Smooth Scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    });
+
+    // ── Scroll Progress ──
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('scroll-progress').style.width = scrolled + '%';
+    });
+
+    // ── Stats Counter ──
+    const animateStats = () => {
+      document.querySelectorAll('.stat-number[data-target]').forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-target'));
+        if (target) {
+          let count = 0;
+          const increment = target / 100;
+          const timer = setInterval(() => {
+            count += increment;
+            if (count >= target) {
+              stat.textContent = target + '+';
+              clearInterval(timer);
+            } else {
+              stat.textContent = Math.ceil(count);
+            }
+          }, 20);
+        }
+      });
+    };
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateStats();
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    });
+    const statsSection = document.querySelector('.stat-number');
+    if (statsSection) statsObserver.observe(statsSection);
+
+    // ── Load services from localStorage (public view) ──
+    function loadPublicServices() {
+      const stored = localStorage.getItem('services');
+      if (!stored) {
+        // If no stored services, use default set
+        const defaultServices = [
+          { name: 'Copyright Support', description: 'Professional assistance with copyright claims and content protection.' },
+          { name: 'Verification Guidance', description: 'Expert guidance for account verification on all major platforms.' },
+          { name: 'Account Management', description: 'Complete account management and optimization services.' },
+          { name: 'Creator Support', description: 'Dedicated support for content creators and influencers.' },
+          { name: 'Business Profile Support', description: 'Professional business profile setup and management.' },
+          { name: 'Social Media Growth', description: 'Strategic growth services for all social media platforms.' }
+        ];
+        localStorage.setItem('services', JSON.stringify(defaultServices));
+        stored = localStorage.getItem('services');
+      }
+      try {
+        const services = JSON.parse(stored);
+        if (!services.length) return;
+        const grid = document.getElementById('services-grid');
+        grid.innerHTML = '';
+        const icons = ['fa-copyright', 'fa-check-circle', 'fa-user-cog', 'fa-video', 'fa-briefcase', 'fa-chart-line',
+          'fa-cog', 'fa-shield-alt', 'fa-rocket', 'fa-globe'
+        ];
+        services.forEach((svc, idx) => {
+          const card = document.createElement('div');
+          card.className = 'service-card glass p-8 rounded-2xl';
+          card.setAttribute('data-aos', 'fade-up');
+          card.setAttribute('data-aos-delay', (100 + idx * 100) + '');
+          const icon = icons[idx % icons.length];
+          card.innerHTML = `
+            <div class="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mb-6">
+              <i class="fas ${icon} text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">${svc.name}</h3>
+            <p class="opacity-70">${svc.description}</p>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (_) { /* ignore */ }
+    }
+    loadPublicServices();
+
+    // ── Track visitor (once per session) ──
+    if (!sessionStorage.getItem('visitorTracked')) {
+      let total = parseInt(localStorage.getItem('totalVisitors') || '1234');
+      let today = parseInt(localStorage.getItem('visitorsToday') || '42');
+      total += 1;
+      today += 1;
+      localStorage.setItem('totalVisitors', total);
+      localStorage.setItem('visitorsToday', today);
+      sessionStorage.setItem('visitorTracked', '1');
+    }
+
+    // ── Glowing cursor trail ──
+    document.addEventListener('mousemove', (e) => {
+      const dot = document.createElement('div');
+      dot.style.cssText = `
+        position:fixed; left:${e.clientX}px; top:${e.clientY}px;
+        width:10px; height:10px; border-radius:50%;
+        background:rgba(13,71,161,0.3); pointer-events:none; z-index:9999;
+      `;
+      document.body.appendChild(dot);
+      setTimeout(() => dot.remove(), 500);
+    });
+  </script>
+</body>
+</html>
